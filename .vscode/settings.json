@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "rideshare",
+            "database": "${workspaceFolder:Uber_analysis}/data/rideshare.db"
+        }
+    ]
+}
