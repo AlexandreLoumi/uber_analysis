@@ -22,10 +22,10 @@ SELECT * FROM riders LIMIT 10;
 SELECT * FROM cancellations LIMIT 10;
 SELECT * FROM trips LIMIT 10;
 SELECT * FROM drivers LIMIT 10;
+SELECT * FROM users LIMIT 10;
 SELECT * FROM locations LIMIT 10;
 SELECT * FROM payments LIMIT 10;
 SELECT * FROM reviews LIMIT 10;
-SELECT * FROM users LIMIT 10;
 
 --------------------------------
 -- 2. KEY BUSINESS METRICS
@@ -78,22 +78,57 @@ SELECT requested_at
 FROM trips;
 
 /*
-Analyser l'évolution du volume de courses au fil du temps pour identifier les tendances saisonnières et les périodes de forte activité.
+Analyser l'évolution du volume de courses au fil du temps pour identifier
+les tendances saisonnières et les périodes de forte activité.
 */
 
-SELECT strftime('%Y-%m', requested_at) AS 'Mois', COUNT(*) AS "Nombre de courses"
+SELECT
+    strftime('%Y-%m', requested_at) AS 'Mois',
+    COUNT(*) AS "Nombre de courses"
 FROM trips
 GROUP BY strftime('%Y-%m', requested_at)
 ORDER BY strftime('%Y-%m', requested_at) ;
 
 /*
-Analyser les zones géographiques les plus fréquentées par les utilisateurs
+Analyser les villes les plus fréquentées par les utilisateurs
 pour identifier les zones à fort potentiel de croissance et d'expansion.
 */
 
-SELECT  locations.city AS 'Ville', COUNT(*) AS "Nombre de courses"
+SELECT
+    locations.city AS 'Ville',
+    COUNT(*) AS "Nombre de courses"
 FROM trips
 JOIN locations ON trips.pickup_location_id = locations.location_id
 GROUP BY locations.city
 ORDER BY "Nombre de courses" DESC;
 
+
+-- Qui sont les 10 chauffeurs ayant rapporté le plus de CA ?
+
+SELECT
+    users.name AS "Chauffeurs",
+    COUNT(*) AS "Nombre de courses",
+    ROUND(SUM(trips.total_fare), 2) AS "Chiffre d'affaires total généré"
+FROM trips
+JOIN drivers ON trips.driver_id = drivers.driver_id
+JOIN users ON drivers.user_id = users.user_id
+GROUP BY users.name
+ORDER BY "Chiffre d'affaires total généré" DESC
+LIMIT 10;
+
+
+-- Quel est le taux d'annulation des course ?
+
+SELECT
+    100.0 * COUNT(cancellations.trip_id)  / COUNT(trips.trip_id) AS "Taux d'annulation"
+FROM trips
+LEFT JOIN cancellations ON trips.trip_id = cancellations.trip_id;
+
+-- Quelles sont les raisons d'annulation ?
+SELECT
+    COUNT(cancel_id) AS "Nombre d'annulations",
+    reason AS "Raison de l'annulation",
+    cancelled_by AS "Annulé par"
+FROM cancellations
+GROUP BY reason, cancelled_by
+ORDER BY "Nombre d'annulations" DESC;
