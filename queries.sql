@@ -136,6 +136,18 @@ GROUP BY reason, cancelled_by
 ORDER BY "Nombre d'annulations" DESC;
 
 
+-- Combien de chiffre d'affaires perd Uber à cause des annulations ?
+
+SELECT
+    cancellations.reason AS "Raison d'annulation",
+    SUM(trips.total_fare) AS "CA potentiel perdu",
+    COUNT(*) AS "Nombre d'annulations",
+    ROUND(AVG(trips.total_fare), 2) AS "Montant moyen des courses annulées" 
+FROM cancellations
+JOIN trips ON cancellations.trip_id = trips.trip_id
+GROUP BY cancellations.reason
+ORDER BY "CA potentiel perdu" DESC;
+
 --------------------------------
 -- 5. ANALYSE DE LA PERFORMANCE CHAUFFEURS
 --------------------------------
@@ -175,6 +187,15 @@ FROM courses_quartile
 GROUP BY quartile_duree;
 
 
+--------------------------------
+-- 6. ANALYSE OPÉRATIONNELLE
+--------------------------------
+
+/*
+Quels sont les créneaux Jour / Heure les plus demandés ?
+L'analyse croise le jour de la semaine et l'heure de la journée
+afin d'identifier les créneaux générant le plus de demandes.
+*/
 
 WITH jour_semaine AS (
     SELECT
@@ -199,17 +220,3 @@ FROM jour_semaine
 GROUP BY "Jour de la semaine", "Heure de la journée"
 ORDER BY "Nombre de courses" DESC
 LIMIT 10;
-
-
---------------------------------
--- 6. ANALYSE OPÉRATIONNELLE
---------------------------------
-
-/*
-Quels sont les créneaux Jour / Heure les plus demandés ?
-L'analyse croise le jour de la semaine et l'heure de la journée
-afin d'identifier les créneaux générant le plus de demandes.
-*/
-
-
-"Ajout de 3 analyses : performance, annulation et pics horaire"
