@@ -247,3 +247,27 @@ JOIN users ON drivers.user_id = users.user_id
 GROUP BY users.name
 ORDER BY "CA par heure" ASC
 LIMIT 10;
+
+-- Quels chauffeurs contribuent le plus aux annulations
+
+WITH trips_cte AS (
+    SELECT
+        driver_id,
+        COUNT(*) AS total_courses
+    FROM trips
+    GROUP BY driver_id
+)
+SELECT
+    users.name AS "Chauffeurs",
+    total_courses,
+    COUNT(cancellations.cancel_id) AS "Nombre d'annulations",
+    ROUND(100.0 * COUNT(cancellations.cancel_id) / total_courses, 2) AS "Taux d'annulation"
+FROM trips
+JOIN drivers ON trips.driver_id = drivers.driver_id
+JOIN users ON drivers.user_id = users.user_id
+JOIN trips_cte ON drivers.driver_id = trips_cte.driver_id
+JOIN cancellations ON trips.trip_id = cancellations.trip_id
+GROUP BY drivers.driver_id, users.name, total_courses
+ORDER BY "Taux d'annulation" DESC
+LIMIT 10;
+
