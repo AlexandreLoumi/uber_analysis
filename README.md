@@ -1,28 +1,17 @@
-# 🚖 Analyse de courses VTC (SQL)
+# Analyse de courses VTC (SQL)
 
 Projet d'analyse exploratoire réalisé en SQL à partir d'une base de données simulant l'activité d'une plateforme de VTC.
 
-L'objectif est d'identifier les principaux leviers d'amélioration de la performance opérationnelle grâce à des analyses orientées métier.
 
----
+## Objectifs du projet
 
-## 📊 Objectifs du projet
+J'ai choisi d'orienter ce projet sur une analyse ayant pour objectif de répondre aux besoins d'équipes métier.
+L'objectif est donc d'identifier des leviers d'optimisation par zone géographique, par utilisateur (chauffeur ou client), ou par
+type de trajet par exemple.
 
-Cette étude répond notamment aux questions suivantes :
+Les équipes métier peuvent donc orienter leurs actions vers les insights découverts grâce à l'analyse.
 
-- Quel est le chiffre d'affaires généré ?
-- Quels sont les taux d'annulation des courses ?
-- Qui annule le plus souvent (client, chauffeur ou système) ?
-- Quelles sont les principales raisons des annulations ?
-- Quel chiffre d'affaires est perdu à cause des annulations ?
-- Quels sont les chauffeurs les plus performants ?
-- Quels créneaux horaires génèrent le plus de revenus ?
-- Les trajets courts ou longs sont-ils les plus rentables ?
-- Les zones géographiques présentent-elles des différences de performance ?
-
----
-
-## 🛠️ Technologies utilisées
+## STACK
 
 - SQL
 - SQLite
@@ -30,11 +19,10 @@ Cette étude répond notamment aux questions suivantes :
 - Git
 - GitHub
 
----
 
-## 📈 Analyses réalisées
+## Analyses réalisées
 
-Le fichier `queries.sql` regroupe plusieurs analyses métier, notamment :
+Le fichier `queries.sql` regroupe plusieurs analyses métier :
 
 - KPI globaux
 - Analyse du chiffre d'affaires
@@ -45,21 +33,13 @@ Le fichier `queries.sql` regroupe plusieurs analyses métier, notamment :
 - Analyse des zones géographiques
 - Calcul de différents indicateurs de performance
 
-Chaque requête est documentée avec :
 
-- la question métier
-- l'enjeu
-- le résultat clé
-
----
-
-## ⚡ Optimisation
+## Optimisation
 
 Le fichier `indexes.sql` contient les index utilisés afin d'améliorer les performances des requêtes les plus coûteuses.
 
----
 
-## ▶️ Utilisation
+##  Utilisation
 
 1. Cloner le dépôt :
 
@@ -71,20 +51,9 @@ git clone https://github.com/AlexandreLoumi/uber_analysis.git
 
 3. Exécuter les requêtes présentes dans `queries.sql`.
 
----
 
-## 📚 Source des données
+## Source des données
 
-Les données utilisées dans ce projet proviennent du jeu de données **Uber SQL Database** disponible sur Kaggle.
+Les données utilisées dans ce projet proviennent du jeu de données **Uber SQL Database** disponible sur Kaggle :
 
 https://www.kaggle.com/datasets/rockyt07/uber-sql-database
-
----
-
-## 👤 Auteur
-
-**Alexandre Loumi**
-
-Data Analyst
-
-GitHub : https://github.com/AlexandreLoumi
